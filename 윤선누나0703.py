@@ -4,10 +4,10 @@ import threading
 import tkinter
 
 def process1():
-    print("손씻기 타이머를 시작합니다.")
     sec = 30
-    print(sec)
     
+    label = Label(window, text="30초 손씻기 타이머를 시작합니다.",font=("바탕체",20),fg="blue")
+    label.pack() 
     label1 = Label(window, text=str(sec),font=("바탕체",20),fg="red")
     label1.pack() 
     
@@ -19,6 +19,7 @@ def process1():
         label1 = Label(window, text=str(sec),font=("바탕체",20),fg="red")
         label1.pack() 
         #print(sec)
+    label.pack_forget()
     
 
 def process2():
@@ -30,27 +31,75 @@ def process2():
 
     
 def process3():
-    import threading
-    import time
     b = 0;
+    
+    label2 = Label(window, text="알림을 받을 주기를 선택해주세요(1시간, 2시간, 3시간) : ",font=("바탕체",10),fg="red")
+
     def corona_alarm():
-        print("손 씻을 시간입니다. 소독제를 이용해 손을 씻어주세요")
-        threading.Timer(b, corona_alarm).start()
-    while True:
-        a = input("알림을 받을 주기를 선택해주세요(1시간, 2시간, 3시간) : ");
-        if (a == '1시간'):
-            b = 2.5;
-            break;
-        elif (a == '2시간'):
-            b = 5;
-            break;
-        elif (a == '3시간'):
-            b = 10;
-            break;
-    corona_alarm();
+        time.sleep(b)
+        
+
+    def command1():
+        b = 5
+        
+        label2.pack_forget()
+        bt1.pack_forget()
+        bt2.pack_forget()
+        bt3.pack_forget()
+
+        time.sleep(b)
+
+        label = Label(window, text=" 손씻으세요 ",font=("바탕체",20),fg="red")
+        label.pack() 
+        
+
+        
+        
+        
+    def command2():
+        b = 10
+        label2.pack_forget()
+        bt1.pack_forget()
+        bt2.pack_forget()
+        bt3.pack_forget()
+
+        time.sleep(b)
+
+        label = Label(window, text=" 손씻으세요 ",font=("바탕체",20),fg="red")
+        label.pack() 
+        
+    def command3():
+        b = 20
+        label2.pack_forget()
+        bt1.pack_forget()
+        bt2.pack_forget()
+        bt3.pack_forget()
+
+        time.sleep(b)
+
+        label = Label(window, text=" 손씻으세요 ",font=("바탕체",20),fg="red")
+        label.pack() 
+
+    
+    label2.pack() 
+    bt1=Button(window,text="1시간", bg="light green", command=command1)
+    bt2=Button(window,text="2시간", bg="light blue", command=command2)
+    bt3=Button(window,text="3시간", bg="light gray",command=command3)
+            
+    bt1.pack(pady=5)
+    bt2.pack(pady=5)
+    bt3.pack(pady=5)
+
+
 
 def start1():
     t = threading.Thread(target=process1)
+    t.daemon = True 
+    t.start()
+
+
+def start3():
+    t = threading.Thread(target=process3)
     t.daemon = True 
     t.start()
 
@@ -64,7 +113,7 @@ label1.pack()
 
 bt1=Button(window,text="손씻기 시작", bg="light green", command=start1)
 bt2=Button(window,text="손씻기 방법", bg="light blue", command=process2)
-bt3=Button(window,text="손씻기 알림", bg="light gray",command=process3)
+bt3=Button(window,text="손씻기 알림", bg="light gray",command=start3)
            
 bt1.pack(pady=5)
 bt2.pack(pady=5)
