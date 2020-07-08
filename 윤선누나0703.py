@@ -1,7 +1,16 @@
 from tkinter import *
 import time
 import threading
+import multiprocessing
 import tkinter
+
+window=Tk()
+window.title("코로나예방 손씻기 프로그램")
+window.geometry("700x700")
+window.resizable(True,True)
+
+introlabel = Label(window, text="★손씻고 코로나 예방하자☆",font=("궁서체",30),fg="blue")
+introlabel.pack()   
 
 def process1():
     sec = 30
@@ -11,7 +20,7 @@ def process1():
     label1 = Label(window, text=str(sec),font=("바탕체",20),fg="red")
     label1.pack() 
     
-#while은 반복문으로 sec가 0이 되면 반복을 멈춰라
+    #while은 반복문으로 sec가 0이 되면 반복을 멈춰라
     while (sec != 0 ):
         sec = sec-1
         time.sleep(1)
@@ -20,7 +29,6 @@ def process1():
         label1.pack() 
         #print(sec)
     label.pack_forget()
-    
 
 def process2():
     root=tkinter
@@ -29,66 +37,81 @@ def process2():
     label.pack()
     root.mainloop()
 
-    
 def process3():
-    b = 0;
     
-    label2 = Label(window, text="알림을 받을 주기를 선택해주세요(1시간, 2시간, 3시간) : ",font=("바탕체",10),fg="red")
-
-    def corona_alarm():
-        time.sleep(b)
-        
-
-    def command1():
-        b = 5
-        
-        label2.pack_forget()
-        bt1.pack_forget()
-        bt2.pack_forget()
-        bt3.pack_forget()
-
-        time.sleep(b)
-
-        label = Label(window, text=" 손씻으세요 ",font=("바탕체",20),fg="red")
-        label.pack() 
-        
-
-        
-        
-        
-    def command2():
-        b = 10
-        label2.pack_forget()
-        bt1.pack_forget()
-        bt2.pack_forget()
-        bt3.pack_forget()
-
-        time.sleep(b)
-
-        label = Label(window, text=" 손씻으세요 ",font=("바탕체",20),fg="red")
-        label.pack() 
-        
-    def command3():
-        b = 20
-        label2.pack_forget()
-        bt1.pack_forget()
-        bt2.pack_forget()
-        bt3.pack_forget()
-
-        time.sleep(b)
-
-        label = Label(window, text=" 손씻으세요 ",font=("바탕체",20),fg="red")
-        label.pack() 
-
     
-    label2.pack() 
-    bt1=Button(window,text="1시간", bg="light green", command=command1)
-    bt2=Button(window,text="2시간", bg="light blue", command=command2)
-    bt3=Button(window,text="3시간", bg="light gray",command=command3)
+    p3label = Label(window, text="알림을 받을 주기를 선택해주세요(1시간, 2시간, 3시간)",font=("바탕체",10),fg="red")
+    p3bt1=Button()
+    p3bt2=Button()
+    p3bt3=Button()
+
+    def maketimestring( strlen ) :
+        result = ""
+        for i in range(strlen):
+            result+="■"
+            if(i%30 == 29):
+                result +="\n"
+        print(strlen)
+        return result
+    
+    def printtimestring( sec ):
+
+        
+        #while은 반복문으로 sec가 0이 되면 반복을 멈춰라
+        while (sec != 0 ):
+            timestring = maketimestring(sec)
+            #timelabel = Label(window, text=timestring,font=("바탕체",10),fg="black")
+            #timelabel.pack() 
+            sec = sec-1
+            time.sleep(1)
+            #timelabel.destroy()
+
+    def distorybutton():
+        p3label.destroy()
+        p3bt1.destroy()
+        p3bt2.destroy()
+        p3bt3.destroy()
+
+    def p3start1():
+        distorybutton()
+        p3label = Label(window, text="1시간 알람을 설정하셨습니다",font=("바탕체",10),fg="red")
+        p3label.pack()
+        printtimestring(6)
+        p3label.destroy()
+
+        p3label = Label(window, text="손씻을 시간입니다",font=("바탕체",10),fg="red")
+        p3label.pack()
+
+        
+    def p3start2():
+        distorybutton()
+        p3label = Label(window, text="2시간 알람을 설정하셨습니다",font=("바탕체",10),fg="red")
+        p3label.pack()
+        printtimestring(12)
+        p3label.destroy()
+
+        p3label = Label(window, text="손씻을 시간입니다",font=("바탕체",10),fg="red")
+        p3label.pack()
+
+        
+    def p3start3():
+        distorybutton()
+        p3label = Label(window, text="3시간 알람을 설정하셨습니다",font=("바탕체",10),fg="red")
+        p3label.pack()
+        printtimestring(18)
+        p3label.destroy()
+
+        p3label = Label(window, text="손씻을 시간입니다",font=("바탕체",10),fg="red")
+        p3label.pack()
+
+    p3label.pack() 
+    p3bt1=Button(window,text="1시간", bg="light green", command=p3start1)
+    p3bt2=Button(window,text="2시간", bg="light blue", command=p3start2)
+    p3bt3=Button(window,text="3시간", bg="light gray", command=p3start3)
             
-    bt1.pack(pady=5)
-    bt2.pack(pady=5)
-    bt3.pack(pady=5)
+    p3bt1.pack(pady=5)
+    p3bt2.pack(pady=5)
+    p3bt3.pack(pady=5)
 
 
 
@@ -97,26 +120,21 @@ def start1():
     t.daemon = True 
     t.start()
 
-
 def start3():
-    t = threading.Thread(target=process3)
-    t.daemon = True 
-    t.start()
+    t1 = threading.Thread(target=process3)
+    t1.daemon = True 
+    t1.start()
 
-window=Tk()
-window.title("코로나예방 손씻기 프로그램")
-window.geometry("700x700")
-window.resizable(True,True)
+if __name__ == "__main__": 
 
-label1 = Label(window, text="★손씻고 코로나 예방하자☆",font=("궁서체",30),fg="blue")
-label1.pack()    
+    bt1=Button(window,text="손씻기 시작", bg="light green", command = start1)
+    bt2=Button(window,text="손씻기 방법", bg="light blue", command = process2)
+    bt3=Button(window,text="손씻기 알림", bg="light gray", command = start3)
+            
+    bt1.pack(pady=5)
+    bt2.pack(pady=5)
+    bt3.pack(pady=5)
 
-bt1=Button(window,text="손씻기 시작", bg="light green", command=start1)
-bt2=Button(window,text="손씻기 방법", bg="light blue", command=process2)
-bt3=Button(window,text="손씻기 알림", bg="light gray",command=start3)
-           
-bt1.pack(pady=5)
-bt2.pack(pady=5)
-bt3.pack(pady=5)
 
-window.mainloop()
+    window.mainloop()
+
